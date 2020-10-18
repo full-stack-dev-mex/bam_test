@@ -145,7 +145,7 @@ class BAM_Ads_Test_Admin {
 			'capability_type' => 'post',  
 			'has_archive' => true,   
 			'hierarchical' => false,  
-			'supports' => array('title', 'thumbnail')
+			'supports' => array('title')
 		] );
 	}
 
@@ -292,6 +292,17 @@ class BAM_Ads_Test_Admin {
 		$bam_ad_template_type = (isset($_POST["bam_ad_template_type"]) && $_POST["bam_ad_template_type"]!='') ? $_POST["bam_ad_template_type"] : '';
 
 		update_post_meta($post_id, "bam_ad_template_type", $bam_ad_template_type);
+	}
+
+	public function show_shortcode_in_admin()
+	{
+		global $post;
+		if($post->post_type != "bam_test_ad") {
+			return;
+		}
+		echo "TO PLACE AD, COPY THIS SHORTCODE AND PASTE ANYHWERE IN YOUR POST: <br> <b>[show_bam_ad ad_slug='$post->post_name']</b> <br>
+		IF YOU WANT TO OVERRIDE THE TITLE, YOU CAN ADD THE title proprtty like so: <br>
+		  <b>[show_bam_ad ad_slug='$post->post_name' title='My custom title']</b> ";
 	}
 
 
