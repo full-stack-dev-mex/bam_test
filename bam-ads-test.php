@@ -9,7 +9,7 @@
  * @wordpress-plugin
  * Plugin Name:       Born Again Media - Ads Plugin Test for Elias Escalante
  * Plugin URI:        http://example.com/bam-ads-test-uri/
- * Description:       Implement a plugin of a basic Ad System for WordPress for authors to add, edit, and remove ads. Each ad has the following attributes:
+ * Description:       Implement a plugin of a basic Ad System for WordPress for authors to add, edit, and remove ads. 
  * Version:           1.0.0
  * Author:            Elias Escalante
  * Author URI:        http://example.com/

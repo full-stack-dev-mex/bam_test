@@ -10,7 +10,9 @@ Implement a plugin of a basic Ad System for WordPress for authors to add, edit, 
 == Description ==
 
 Please try to accomplish the following:
-Implement a plugin of a basic Ad System for WordPress for authors to add, edit, and remove ads. Each ad has the following attributes:
+Implement a plugin of a basic Ad System for WordPress for authors to add, edit, and remove ads. 
+
+Each ad has the following attributes:
 
 * Type
 * Template
