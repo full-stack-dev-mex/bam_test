@@ -8,6 +8,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Implement a plugin of a basic Ad System for WordPress for authors to add, edit, and remove ads.
 
 == Description ==
+Instalation:
+
+ Download ZIP, uncompress in plugins folder of your WP installation, activate plugin.
+ 
+ 
+== Description ==
 
 Please try to accomplish the following:
 Implement a plugin of a basic Ad System for WordPress for authors to add, edit, and remove ads. 
