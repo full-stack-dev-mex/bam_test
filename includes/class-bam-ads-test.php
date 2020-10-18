@@ -170,6 +170,8 @@ class BAM_Ads_Test {
 
 		$this->loader->add_action( 'save_post', $plugin_admin, 'bam_ad_template_save_meta_box' );
 
+		$this->loader->add_action( 'edit_form_after_title', $plugin_admin, 'show_shortcode_in_admin' );
+
 		
 		
 	}
