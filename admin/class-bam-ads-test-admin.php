@@ -210,7 +210,9 @@ class BAM_Ads_Test_Admin {
 					'add_new_item' => 'Add New Ad Type',
 					'new_item_name' => "New Ad Type"
 				),
-				'show_ui' => true,
+				"show_ui" => true,
+		        "show_in_menu" => true,
+		        "show_in_nav_menus" => true,
 				'show_tagcloud' => false,
 				'hierarchical' => true,
 				'show_admin_column' => true
@@ -230,6 +232,11 @@ class BAM_Ads_Test_Admin {
 				'name'          => 'Ad type 2',
 				'slug'          => 'ad-type-2',
 				'description'   => 'This is a ad type two',
+			),
+			'1' => array (
+				'name'          => 'PICK',
+				'slug'          => 'ad-type-pick',
+				'description'   => 'This is a ad type pick',
 			),
 		);  
 
@@ -294,7 +301,7 @@ class BAM_Ads_Test_Admin {
 		update_post_meta($post_id, "bam_ad_template_type", $bam_ad_template_type);
 	}
 
-	public function show_shortcode_in_admin()
+	public function show_shortcode_instructions_in_admin()
 	{
 		global $post;
 		if($post->post_type != "bam_test_ad") {

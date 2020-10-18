@@ -104,13 +104,17 @@ class BAM_Ads_Test_Public {
 	{
 		$a = shortcode_atts( array(
 			'title' => '',
-			'ad_slug' => 'first-add'
+			'ad_slug' => ''
 		), $atts );
+
+		if($a['ad_slug'] == '') {
+			return 'you need to specify an ad_slug for your ad shortcode';
+		}
 
 		// SET Template 
 		$bam_test_ad = get_page_by_path( $a['ad_slug'], OBJECT, 'bam_test_ad' );
 		$bam_ad_template_type = get_post_meta($bam_test_ad->ID, 'bam_ad_template_type', true);
-		
+
 		// SET Title
 		$title = ($a['title'] != '') ? $a['title'] : $bam_test_ad->post_title;
 
@@ -120,6 +124,12 @@ class BAM_Ads_Test_Public {
 		if(in_category('NBA')) $bgcolor = 'orange';
 		if(in_category('NFL')) $bgcolor = 'black';
 
+		//CHECK Type
+		$is_type_pick = has_term("PICK", "ad_type", $bam_test_ad->ID ) ?: false;
+		if($is_type_pick) {
+			$bam_ad_template_type = 'pick';
+			unset($bgcolor);
+		}
 		ob_start();
 
 		require_once "partials/bam-ads-test-public-template-".$bam_ad_template_type.".php";

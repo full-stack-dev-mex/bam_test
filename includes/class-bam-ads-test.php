@@ -160,9 +160,9 @@ class BAM_Ads_Test {
 
 		$this->loader->add_action( 'init', $plugin_admin, 'register_bam_ad_post_type' );
 		
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'create_ad_type_taxonomy' );
+		$this->loader->add_action( 'init', $plugin_admin, 'create_ad_type_taxonomy' );
 
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_new_terms_for_ad_type_taxonomy' );
+		$this->loader->add_action( 'init', $plugin_admin, 'register_new_terms_for_ad_type_taxonomy' );
 		
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_sport_type_type_categories' );
 
@@ -170,7 +170,7 @@ class BAM_Ads_Test {
 
 		$this->loader->add_action( 'save_post', $plugin_admin, 'bam_ad_template_save_meta_box' );
 
-		$this->loader->add_action( 'edit_form_after_title', $plugin_admin, 'show_shortcode_in_admin' );
+		$this->loader->add_action( 'edit_form_after_title', $plugin_admin, 'show_shortcode_instructions_in_admin' );
 
 		
 		
