@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: Elias Escalantein
 Donate link: https://www.linkedin.com/in/eliasescalante/
-Tags: banners, bam 
+Tags: adss, bam 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

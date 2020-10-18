@@ -22,7 +22,7 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    BAM_Banner_Test
+ * @package    BAM_Ads_Test
  */
 
 // If uninstall not called from WordPress, then exit.

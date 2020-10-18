@@ -9,8 +9,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    BAM_Banner_Test
- * @subpackage BAM_Banner_Test/includes
+ * @package    BAM_Ads_Test
+ * @subpackage BAM_Ads_Test/includes
  */
 
 /**
@@ -20,11 +20,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    BAM_Banner_Test
- * @subpackage BAM_Banner_Test/includes
+ * @package    BAM_Ads_Test
+ * @subpackage BAM_Ads_Test/includes
  * @author     Your Name <email@example.com>
  */
-class BAM_Banner_Test_i18n {
+class BAM_Ads_Test_i18n {
 
 
 	/**
@@ -35,7 +35,7 @@ class BAM_Banner_Test_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'bam-banner-test',
+			'bam-ads-test',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

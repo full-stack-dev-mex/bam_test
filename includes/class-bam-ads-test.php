@@ -9,8 +9,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    BAM_Banner_Test
- * @subpackage BAM_Banner_Test/includes
+ * @package    BAM_Ads_Test
+ * @subpackage BAM_Ads_Test/includes
  */
 
 /**
@@ -23,11 +23,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    BAM_Banner_Test
- * @subpackage BAM_Banner_Test/includes
+ * @package    BAM_Ads_Test
+ * @subpackage BAM_Ads_Test/includes
  * @author     Your Name <email@example.com>
  */
-class BAM_Banner_Test {
+class BAM_Ads_Test {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +35,7 @@ class BAM_Banner_Test {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      BAM_Banner_Test_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      BAM_Ads_Test_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -44,9 +44,9 @@ class BAM_Banner_Test {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $bam_banner_test    The string used to uniquely identify this plugin.
+	 * @var      string    $bam_ads_test    The string used to uniquely identify this plugin.
 	 */
-	protected $bam_banner_test;
+	protected $bam_ads_test;
 
 	/**
 	 * The current version of the plugin.
@@ -72,7 +72,7 @@ class BAM_Banner_Test {
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->bam_banner_test = 'bam-banner-test';
+		$this->bam_ads_test = 'bam-ads-test';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -86,10 +86,10 @@ class BAM_Banner_Test {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - BAM_Banner_Test_Loader. Orchestrates the hooks of the plugin.
-	 * - BAM_Banner_Test_i18n. Defines internationalization functionality.
-	 * - BAM_Banner_Test_Admin. Defines all hooks for the admin area.
-	 * - BAM_Banner_Test_Public. Defines all hooks for the public side of the site.
+	 * - BAM_Ads_Test_Loader. Orchestrates the hooks of the plugin.
+	 * - BAM_Ads_Test_i18n. Defines internationalization functionality.
+	 * - BAM_Ads_Test_Admin. Defines all hooks for the admin area.
+	 * - BAM_Ads_Test_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -103,33 +103,33 @@ class BAM_Banner_Test {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bam-banner-test-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bam-ads-test-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bam-banner-test-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bam-ads-test-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bam-banner-test-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bam-ads-test-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-bam-banner-test-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-bam-ads-test-public.php';
 
-		$this->loader = new BAM_Banner_Test_Loader();
+		$this->loader = new BAM_Ads_Test_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the BAM_Banner_Test_i18n class in order to set the domain and to register the hook
+	 * Uses the BAM_Ads_Test_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -137,7 +137,7 @@ class BAM_Banner_Test {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new BAM_Banner_Test_i18n();
+		$plugin_i18n = new BAM_Ads_Test_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -152,10 +152,14 @@ class BAM_Banner_Test {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new BAM_Banner_Test_Admin( $this->get_bam_banner_test(), $this->get_version() );
+		$plugin_admin = new BAM_Ads_Test_Admin( $this->get_bam_ads_test(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		$this->loader->add_action( 'init', $plugin_admin, 'register_bam_ads_post_type' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_bam_ads_menu_page' );
+		
 
 	}
 
@@ -168,10 +172,11 @@ class BAM_Banner_Test {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new BAM_Banner_Test_Public( $this->get_bam_banner_test(), $this->get_version() );
+		$plugin_public = new BAM_Ads_Test_Public( $this->get_bam_ads_test(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_shortcode( 'your-shortcode-name', $plugin_public, 'bam_test_ads_custom_template' );
 
 	}
 
@@ -191,15 +196,15 @@ class BAM_Banner_Test {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_bam_banner_test() {
-		return $this->bam_banner_test;
+	public function get_bam_ads_test() {
+		return $this->bam_ads_test;
 	}
 
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    BAM_Banner_Test_Loader    Orchestrates the hooks of the plugin.
+	 * @return    BAM_Ads_Test_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

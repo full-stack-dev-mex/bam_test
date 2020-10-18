@@ -8,8 +8,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    BAM_Banner_Test
- * @subpackage BAM_Banner_Test/admin/partials
+ * @package    BAM_Ads_Test
+ * @subpackage BAM_Ads_Test/admin/partials
  */
 ?>
 
