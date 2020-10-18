@@ -100,33 +100,23 @@ class BAM_Ads_Test_Public {
 
 	}
 
-	public function bam_test_ads_custom_template($single) {
-
-		global $post;
-
-		/* Checks for single template by post type */
-		if ( $post->post_type == 'bam_test_ads' ) {
-			if ( file_exists( PLUGIN_PATH . '/single-bam_test_ads-template1.php' ) ) {
-				return PLUGIN_PATH . '/single-bam_test_ads-template1.php';
-			}
-		}
-
-		return $single;
-
-	}
-
 	public function insert_bam_ad_shortcode($atts)
 	{
 		$a = shortcode_atts( array(
 			'title' => 'a title',
-			'id' => '',
+			'add_slug' => 'first-add',
 			'template' => 'mlb',
 		), $atts );
 
+		$bam_test_ad = get_page_by_path( $a['add_slug'], OBJECT, 'bam_test_ad' );
+
+		$bam_ad_template_type = get_post_meta($bam_test_ad->ID, 'bam_ad_template_type', true);
+
+		$post_categories = get_the_category();
 
 		ob_start();
 
-		require_once "partials/bam-ads-test-public-template-".$a['template'].".php";
+		require_once "partials/bam-ads-test-public-template-".$bam_ad_template_type.".php";
 
 		$out = ob_get_contents();
 
@@ -135,5 +125,7 @@ class BAM_Ads_Test_Public {
 		return $out;
 		
 	}
+
+
 
 }

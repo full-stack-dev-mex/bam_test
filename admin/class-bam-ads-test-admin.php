@@ -118,7 +118,7 @@ class BAM_Ads_Test_Admin {
 
 	
 
-	public function register_bam_ads_post_type()
+	public function register_bam_ad_post_type()
 	{
 		$labels = array(
 			'name'               => _x( 'BAM Ads', 'post type general name' ),
@@ -134,7 +134,7 @@ class BAM_Ads_Test_Admin {
 			'not_found_in_trash' => __( 'No BAM Ads found in the Trash' ), 
 			'menu_name'          => 'BAM Ads'
 		);
-		register_post_type( 'bam_test_ads', [
+		register_post_type( 'bam_test_ad', [
 			'public' => true, 
 			'labels' => $labels,
 			'publicly_queryable' => true,  
@@ -161,36 +161,49 @@ class BAM_Ads_Test_Admin {
 			<form method="post" action="options.php">
 				
 
-			<?php submit_button(); ?>
+				<?php submit_button(); ?>
 
 			</form>
 		</div>
 		<?php
 	}
 
-	public function create_sport_type_taxonomy() {
 
-		register_taxonomy(
-			'sport_type',
-			['posts', 'page'],
-			array(
-				'labels' => array(
-					'name' => 'Sport Type',
-					'add_new_item' => 'Add New Sport Type',
-					'new_item_name' => "New Sport Type"
-				),
-				'show_ui' => true,
-				'show_tagcloud' => false,
-				'hierarchical' => true
+	public function register_sport_type_type_categories() {
+		$this->terms = array (
+			'0' => array (
+				'name'          => 'NFL',
+				'slug'          => 'sport-type-nfl',
+				'description'   => 'This is a Sport Type type NFL',
+			),
+			'1' => array (
+				'name'          => 'NBA',
+				'slug'          => 'sport-type-nba',
+				'description'   => 'This is a Sport Type type NBA',
+			),
+			'2' => array (
+				'name'          => 'MLB',
+				'slug'          => 'sport-type-mlb',
+				'description'   => 'This is a Sport Type type MLB',
+			),
+		);  
+
+		foreach ( $this->terms as $term_key=>$term) {
+			wp_insert_category(array(
+				'cat_name' => $term['name'],
+				'category_description' => $term['description'],
+				'category_nicename' => $term['slug'],
+				'taxonomy' => 'category'
 			)
 		);
+		}
 	}
 
-	public function create_ads_type_taxonomy() {
+	public function create_ad_type_taxonomy() {
 
 		register_taxonomy(
 			'ad_type',
-			['bam_test_ads'],
+			['bam_test_ad'],
 			array(
 				'labels' => array(
 					'name' => 'Ad Type',
@@ -206,34 +219,81 @@ class BAM_Ads_Test_Admin {
 	}
 
 	public function register_new_terms_for_ad_type_taxonomy() {
-        $this->taxonomy = 'ad_type';
-        $this->terms = array (
-            '0' => array (
-                'name'          => 'Ad type 1',
-                'slug'          => 'ad-type-1',
-                'description'   => 'This is a ad type one',
-            ),
-            '1' => array (
-                'name'          => 'Ad type 2',
-                'slug'          => 'ad-type-2',
-                'description'   => 'This is a ad type two',
-            ),
-        );  
+		$this->taxonomy = 'ad_type';
+		$this->terms = array (
+			'0' => array (
+				'name'          => 'Ad type 1',
+				'slug'          => 'ad-type-1',
+				'description'   => 'This is a ad type one',
+			),
+			'1' => array (
+				'name'          => 'Ad type 2',
+				'slug'          => 'ad-type-2',
+				'description'   => 'This is a ad type two',
+			),
+		);  
 
-        foreach ( $this->terms as $term_key=>$term) {
-                wp_insert_term(
-                    $term['name'],
-                    $this->taxonomy, 
-                    array(
-                        'description'   => $term['description'],
-                        'slug'          => $term['slug'],
-                    )
-                );
-            unset( $term ); 
-        }
+		foreach ( $this->terms as $term_key=>$term) {
+			wp_insert_term(
+				$term['name'],
+				$this->taxonomy, 
+				array(
+					'description'   => $term['description'],
+					'slug'          => $term['slug'],
+				)
+			);
+			unset( $term ); 
+		}
+	}
 
-    }
+	public function bam_add_template_meta_box() {
 
-	
+		add_meta_box(
+			'bam_add_template',
+			'Ad template',
+			array($this , 'bam_add_meta_box_callback'),
+			'bam_test_ad'
+		);
+	}
+
+	public function bam_add_meta_box_callback( $post ) {
+
+    	// Add a nonce field so we can check for it later.
+		wp_nonce_field( 'bam_ad_template_meta_box', 'bam_ad_template_type_nonce' );
+
+		$ad_templates = ['nba'=>'NBA template', 'nfl'=>'NFL template', 'mlb'=>'MLB template'];
+		
+		$bam_ad_template_type = get_post_meta($post->ID, 'bam_ad_template_type', true);
+		?>
+		<p>
+			<label for="bam_ad_template_type">Select ad template: </label>
+			<select name='bam_ad_template_type' id='bam_ad_template_type'>
+				<?php foreach ($ad_templates as $ad_template_key => $ad_template_title): ?>
+					<option value="<?php echo esc_attr($ad_template_key); ?>" <?php if($bam_ad_template_type == $ad_template_key) echo "selected"; ?>><?php echo esc_html($ad_template_title); ?></option>
+				<?php endforeach; ?>
+			</select>
+		</p>
+		<?php
+		// echo "bam_ad_template_type: ".$bam_ad_template_type;
+	}
+ 
+
+	public function bam_ad_template_save_meta_box( $post_id ){
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+		if( !current_user_can( 'edit_pages' ) ) {
+			return;
+		}
+		if ( !isset( $_POST['bam_ad_template_type'] ) || !wp_verify_nonce( $_POST['bam_ad_template_type_nonce'], 'bam_ad_template_meta_box' ) ) {
+			return;
+		}
+
+		$bam_ad_template_type = (isset($_POST["bam_ad_template_type"]) && $_POST["bam_ad_template_type"]!='') ? $_POST["bam_ad_template_type"] : '';
+
+		update_post_meta($post_id, "bam_ad_template_type", $bam_ad_template_type);
+	}
+
+
 
 }
