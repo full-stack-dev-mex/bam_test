@@ -5,6 +5,9 @@
 		width: 100%;
 		height: 100px;
 		overflow: hidden;
+		<?php if(isset($bgcolor)) echo "background-color: $bgcolor;"; ?>
+		color: LightGray;
+		
 	}
 
 </style>

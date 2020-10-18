@@ -111,6 +111,11 @@ class BAM_Ads_Test_Public {
 		$bam_test_ad = get_page_by_path( $a['ad_slug'], OBJECT, 'bam_test_ad' );
 		$bam_ad_template_type = get_post_meta($bam_test_ad->ID, 'bam_ad_template_type', true);
 
+		// CHECK categories to SET color
+		$post_categories = get_the_category();
+		if(in_category('MLB')) $bgcolor = 'blue';
+		if(in_category('NBA')) $bgcolor = 'orange';
+		if(in_category('NFL')) $bgcolor = 'black';
 
 		ob_start();
 
