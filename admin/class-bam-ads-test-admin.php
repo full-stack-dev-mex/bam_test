@@ -270,19 +270,19 @@ class BAM_Ads_Test_Admin {
 	public function bam_add_color_picker_meta_box() {
 
 		add_meta_box( 
-			'header-page-metabox-options', 
-			esc_html__('Header Color', 'mytheme' ), 
-			array( $this, 'mytheme_header_meta_box'), 
+			'ad-background-metabox-options', 
+			esc_html__('Ad Background Color', 'mytheme' ), 
+			array( $this, 'ad_background_meta_box'), 
 			'bam_test_ad', 
 			'side', 
 			'low'
 		);	
 	}
 
-	public function mytheme_header_meta_box( $post ){
+	public function ad_background_meta_box( $post ){
 		$custom = get_post_custom( $post->ID );
 		$bam_ad_background_color = (isset($custom["bam_ad_background_color"][0])) ? $custom["bam_ad_background_color"][0] : '';
-		wp_nonce_field( 'mytheme_header_meta_box', 'mytheme_header_meta_box_nonce' );
+		wp_nonce_field( 'ad_background_meta_box', 'ad_background_meta_box_nonce' );
 		?>
 		<script>
 		jQuery(document).ready(function($){
@@ -305,7 +305,7 @@ class BAM_Ads_Test_Admin {
 		if( !current_user_can( 'edit_pages' ) ) {
 			return;
 		}
-		if ( !isset( $_POST['bam_ad_background_color'] ) || !wp_verify_nonce( $_POST['mytheme_header_meta_box_nonce'], 'mytheme_header_meta_box' ) ) {
+		if ( !isset( $_POST['bam_ad_background_color'] ) || !wp_verify_nonce( $_POST['ad_background_meta_box_nonce'], 'ad_background_meta_box' ) ) {
 			return;
 		}
 		$bam_ad_background_color = (isset($_POST["bam_ad_background_color"]) && $_POST["bam_ad_background_color"]!='') ? $_POST["bam_ad_background_color"] : '';
@@ -357,7 +357,7 @@ class BAM_Ads_Test_Admin {
 			return;
 		}
 		echo "TO PLACE AD, COPY THIS SHORTCODE AND PASTE ANYHWERE IN YOUR POST: <br> <b>[show_bam_ad ad_slug='$post->post_name']</b> <br>
-		IF YOU WANT TO OVERRIDE THE TITLE, YOU CAN ADD THE title proprtty like so: <br>
+		IF YOU WANT TO OVERRIDE THE TITLE, YOU CAN ADD THE 'title' PROPERTY: <br>
 		  <b>[show_bam_ad ad_slug='$post->post_name' title='My custom title']</b> ";
 	}
 
