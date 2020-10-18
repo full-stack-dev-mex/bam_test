@@ -169,8 +169,12 @@ class BAM_Ads_Test {
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'bam_add_template_meta_box' );
 
 		$this->loader->add_action( 'save_post', $plugin_admin, 'bam_ad_template_save_meta_box' );
-
+		
+		$this->loader->add_action( 'save_post', $plugin_admin, 'mytheme_save_background_color_meta_box' );
+		
 		$this->loader->add_action( 'edit_form_after_title', $plugin_admin, 'show_shortcode_instructions_in_admin' );
+
+		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'bam_add_color_picker_meta_box' );
 
 		
 		

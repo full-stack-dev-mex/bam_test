@@ -75,6 +75,8 @@ class BAM_Ads_Test_Admin {
 
 		wp_enqueue_style( $this->bam_ads_test, plugin_dir_url( __FILE__ ) . 'css/bam-ads-test-admin.css', array(), $this->version, 'all' );
 
+		wp_enqueue_style( $this->bam_ads_test, 'wp-color-picker', array(), $this->version, 'all' );
+
 	}
 
 	/**
@@ -97,6 +99,8 @@ class BAM_Ads_Test_Admin {
 		 */
 
 		wp_enqueue_script( $this->bam_ads_test, plugin_dir_url( __FILE__ ) . 'js/bam-ads-test-admin.js', array( 'jquery' ), $this->version, false );
+
+		wp_enqueue_script(  'wp-color-picker', plugins_url('wp-color-picker-script.js', __FILE__ ), array( 'wp-color-picker' ), false, true );
 
 	}
 
@@ -261,6 +265,51 @@ class BAM_Ads_Test_Admin {
 			array($this , 'bam_add_meta_box_callback'),
 			'bam_test_ad'
 		);
+	}
+
+	public function bam_add_color_picker_meta_box() {
+
+		add_meta_box( 
+			'header-page-metabox-options', 
+			esc_html__('Header Color', 'mytheme' ), 
+			array( $this, 'mytheme_header_meta_box'), 
+			'bam_test_ad', 
+			'side', 
+			'low'
+		);	
+	}
+
+	public function mytheme_header_meta_box( $post ){
+		$custom = get_post_custom( $post->ID );
+		$bam_ad_background_color = (isset($custom["bam_ad_background_color"][0])) ? $custom["bam_ad_background_color"][0] : '';
+		wp_nonce_field( 'mytheme_header_meta_box', 'mytheme_header_meta_box_nonce' );
+		?>
+		<script>
+		jQuery(document).ready(function($){
+			$('.color_field').each(function(){
+        		$(this).wpColorPicker();
+    		});
+		});
+		</script>
+		<div class="pagebox">
+			<p><?php esc_attr_e('Choosse a color for your add background.', 'mytheme' ); ?></p>
+			<input class="color_field" type="hidden" name="bam_ad_background_color" value="<?php esc_attr_e($bam_ad_background_color); ?>"/>
+		</div>
+		<?php
+	}
+
+	function mytheme_save_background_color_meta_box( $post_id ){
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+		if( !current_user_can( 'edit_pages' ) ) {
+			return;
+		}
+		if ( !isset( $_POST['bam_ad_background_color'] ) || !wp_verify_nonce( $_POST['mytheme_header_meta_box_nonce'], 'mytheme_header_meta_box' ) ) {
+			return;
+		}
+		$bam_ad_background_color = (isset($_POST["bam_ad_background_color"]) && $_POST["bam_ad_background_color"]!='') ? $_POST["bam_ad_background_color"] : '';
+		update_post_meta($post_id, "bam_ad_background_color", $bam_ad_background_color);
 	}
 
 	public function bam_add_meta_box_callback( $post ) {

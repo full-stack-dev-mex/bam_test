@@ -75,6 +75,8 @@ class BAM_Ads_Test_Public {
 
 		wp_enqueue_style( $this->bam_ads_test, plugin_dir_url( __FILE__ ) . 'css/bam-ads-test-public.css', array(), $this->version, 'all' );
 
+		
+
 	}
 
 	/**
@@ -97,6 +99,8 @@ class BAM_Ads_Test_Public {
 		 */
 
 		wp_enqueue_script( $this->bam_ads_test, plugin_dir_url( __FILE__ ) . 'js/bam-ads-test-public.js', array( 'jquery' ), $this->version, false );
+
+		
 
 	}
 
@@ -130,6 +134,12 @@ class BAM_Ads_Test_Public {
 			$bam_ad_template_type = 'pick';
 			unset($bgcolor);
 		}
+		$bam_ad_background_color = get_post_meta($bam_test_ad->ID, 'bam_ad_background_color', true);
+
+		if($bam_ad_background_color != ''){
+			$bgcolor = $bam_ad_background_color;
+		}
+
 		ob_start();
 
 		require_once "partials/bam-ads-test-public-template-".$bam_ad_template_type.".php";
