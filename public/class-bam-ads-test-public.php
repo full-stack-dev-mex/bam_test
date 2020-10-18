@@ -115,4 +115,25 @@ class BAM_Ads_Test_Public {
 
 	}
 
+	public function insert_bam_ad_shortcode($atts)
+	{
+		$a = shortcode_atts( array(
+			'title' => 'a title',
+			'id' => '',
+			'template' => 'mlb',
+		), $atts );
+
+
+		ob_start();
+
+		require_once "partials/bam-ads-test-public-template-".$a['template'].".php";
+
+		$out = ob_get_contents();
+
+		ob_end_clean();
+
+		return $out;
+		
+	}
+
 }

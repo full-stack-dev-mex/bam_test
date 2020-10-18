@@ -107,13 +107,13 @@ class BAM_Ads_Test_Admin {
 	 */
 	public function register_bam_ads_menu_page()
 	{
-		// add_menu_page(
-		// 	'BAM Test Ads',
-		// 	'BAM Test Ads',
-		// 	'manage_options',
-		// 	'bam_ads',
-		// 	[$this, 'bam_ads_settings']
-		// );
+		add_menu_page(
+			'BAM Test Ads',
+			'BAM Test Ads',
+			'manage_options',
+			'bam_ads',
+			[$this, 'bam_ads_settings']
+		);
 	}
 
 	
@@ -161,7 +161,7 @@ class BAM_Ads_Test_Admin {
 			<form method="post" action="options.php">
 				
 
-				<?php submit_button(); ?>
+			<?php submit_button(); ?>
 
 			</form>
 		</div>
@@ -189,19 +189,51 @@ class BAM_Ads_Test_Admin {
 	public function create_ads_type_taxonomy() {
 
 		register_taxonomy(
-			'ads_type',
+			'ad_type',
 			['bam_test_ads'],
 			array(
 				'labels' => array(
-					'name' => 'BAM Ads Type',
-					'add_new_item' => 'Add New BAM Ads Type',
-					'new_item_name' => "New BAM Ads Type"
+					'name' => 'Ad Type',
+					'add_new_item' => 'Add New Ad Type',
+					'new_item_name' => "New Ad Type"
 				),
 				'show_ui' => true,
 				'show_tagcloud' => false,
-				'hierarchical' => true
+				'hierarchical' => true,
+				'show_admin_column' => true
 			)
 		);
 	}
+
+	public function register_new_terms_for_ad_type_taxonomy() {
+        $this->taxonomy = 'ad_type';
+        $this->terms = array (
+            '0' => array (
+                'name'          => 'Ad type 1',
+                'slug'          => 'ad-type-1',
+                'description'   => 'This is a ad type one',
+            ),
+            '1' => array (
+                'name'          => 'Ad type 2',
+                'slug'          => 'ad-type-2',
+                'description'   => 'This is a ad type two',
+            ),
+        );  
+
+        foreach ( $this->terms as $term_key=>$term) {
+                wp_insert_term(
+                    $term['name'],
+                    $this->taxonomy, 
+                    array(
+                        'description'   => $term['description'],
+                        'slug'          => $term['slug'],
+                    )
+                );
+            unset( $term ); 
+        }
+
+    }
+
+	
 
 }

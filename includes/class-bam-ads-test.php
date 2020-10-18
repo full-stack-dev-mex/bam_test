@@ -158,6 +158,13 @@ class BAM_Ads_Test {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
 		$this->loader->add_action( 'init', $plugin_admin, 'register_bam_ads_post_type' );
+		
+		$this->loader->add_action( 'init', $plugin_admin, 'create_ads_type_taxonomy' );
+		
+		$this->loader->add_action( 'init', $plugin_admin, 'register_new_terms_for_ad_type_taxonomy' );
+
+
+
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_bam_ads_menu_page' );
 		
 
@@ -176,7 +183,7 @@ class BAM_Ads_Test {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_shortcode( 'your-shortcode-name', $plugin_public, 'bam_test_ads_custom_template' );
+		$this->loader->add_shortcode( 'show_bam_ad', $plugin_public, 'insert_bam_ad_shortcode' );
 
 	}
 
