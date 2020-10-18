@@ -12,7 +12,7 @@
 
 </style>
 <div class="bam_ads-content" style="background-image: url('<?php echo plugin_dir_url( __FILE__ );  ?>../img/mlb.jpg'); background-size: contain; background-repeat: no-repeat;">
-	<h3 style="margin-left: 35%;" ><?php echo $a['title'] ?></h3>
+	<h3 style="margin-left: 35%;" ><?php echo $title; ?></h3>
 </div><!-- #primary -->
 
 <?php 

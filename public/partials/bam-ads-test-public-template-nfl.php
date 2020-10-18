@@ -10,7 +10,7 @@
 
 </style>
 <div class="bam_ads-content" style="background-image: url('<?php echo plugin_dir_url( __FILE__ );  ?>../img/nfl.jpg'); background-size: contain; background-repeat: no-repeat;">
-	<h3 style="float: right"><?php echo $a['title'] ?></h3>
+	<h3 style="float: right"><?php echo $title;  ?></h3>
 </div><!-- #primary -->
 
 <?php 

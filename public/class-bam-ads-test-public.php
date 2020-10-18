@@ -103,13 +103,16 @@ class BAM_Ads_Test_Public {
 	public function insert_bam_ad_shortcode($atts)
 	{
 		$a = shortcode_atts( array(
-			'title' => 'a title',
+			'title' => '',
 			'ad_slug' => 'first-add'
 		), $atts );
 
 		// SET Template 
 		$bam_test_ad = get_page_by_path( $a['ad_slug'], OBJECT, 'bam_test_ad' );
 		$bam_ad_template_type = get_post_meta($bam_test_ad->ID, 'bam_ad_template_type', true);
+		
+		// SET Title
+		$title = ($a['title'] != '') ? $a['title'] : $bam_test_ad->post_title;
 
 		// CHECK categories to SET color
 		$post_categories = get_the_category();
