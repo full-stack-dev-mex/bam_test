@@ -330,7 +330,20 @@ class BAM_Ads_Test_Admin {
 			</select>
 		</p>
 		<?php
-		// echo "bam_ad_template_type: ".$bam_ad_template_type;
+		$title = get_the_title();
+
+		$is_type_pick = has_term("PICK", "ad_type", $post->ID ) ?: false;
+		if($is_type_pick) {
+			$bam_ad_template_type = 'pick';
+		}
+		$bam_ad_background_color = get_post_meta($post->ID, 'bam_ad_background_color', true);
+
+		if($bam_ad_background_color != ''){
+			$bgcolor = $bam_ad_background_color;
+		}
+
+
+		require_once WP_PLUGIN_DIR."/bam-ads-test/public/partials/bam-ads-test-public-template-".$bam_ad_template_type.".php";
 	}
  
 
